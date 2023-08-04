@@ -3,6 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author 91975
@@ -217,11 +224,63 @@ public class EditstudentInformation extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_deleteActionPerformed
-        // TODO add your handling code here:
+        if (searchingname.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(null, "PLEASE ENTER STUDENT NAME");
+        } else
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/student", "root",
+                        "2412");
+                String query2 = "Delete from std where Name = '"
+                        + searchingname.getText() + "'";
+                PreparedStatement pst = con.prepareStatement(query2);
+                pst.executeUpdate();
+                name.setText(null);
+                searchingname.setText(null);
+                fathername.setText(null);
+                rollno.setText(null);
+                classs.setText(null);
+                contact.setText(null);
+                address.setText(null);
+                dob.setText(null);
+                fees.setText(null);
+
+                JOptionPane.showMessageDialog(null, "Delete Successfully");
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e, null, 0);
+            }
     }// GEN-LAST:event_deleteActionPerformed
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchActionPerformed
-        // TODO add your handling code here:
+        if (searchingname.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(null, "PLEASE ENTER STUDENT NAME");
+        } else
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/student", "root",
+                        "2412");
+                String query2 = "Select * from std where Name = '"
+                        + searchingname.getText() + "'";
+                PreparedStatement pst = con.prepareStatement(query2);
+                ResultSet r = pst.executeQuery(query2);
+                while (r.next()) {
+                    rollno.setText(r.getString(1));
+                    name.setText(r.getString(2));
+                    fathername.setText(r.getString(3));
+                    address.setText(r.getString(4));
+                    classs.setText(r.getString(5));
+                    dob.setText(r.getString(6));
+                    contact.setText(r.getString(7));
+                    fees.setText(r.getString(8));
+                }
+                JOptionPane.showMessageDialog(null, "SUCCESSFULL");
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e, null, 0);
+            }
     }// GEN-LAST:event_searchActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_exitActionPerformed
@@ -230,11 +289,58 @@ public class EditstudentInformation extends javax.swing.JDialog {
     }// GEN-LAST:event_exitActionPerformed
 
     private void updateActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_updateActionPerformed
-        // TODO add your handling code here:
+
+        if (searchingname.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(null, "PLEASE ENTER STUDENT NAME");
+        } else if (name.getText().length() <= 0
+                || rollno.getText().length() <= 0 || name.getText().length() <= 0
+                || fathername.getText().length() <= 0 || classs.getText().length() <= 0
+                || contact.getText().length() <= 0 || address.getText().length() <= 0 || dob.getText().length() <= 0
+                || fees.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(null, " Enter All Valid Information");
+        } else
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                java.sql.Connection con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/student",
+                        "root", "2412");
+                String sql = "Update std set Roll_no = ?, Name = ? , fathername = ? , address = ? , class = ? , dob= ? , contact= ?, fees = ? where Name = '"
+                        + searchingname.getText() + "'";
+                PreparedStatement pstmt = con.prepareStatement(sql);
+                pstmt.setInt(1, Integer.parseInt(rollno.getText()));
+                pstmt.setString(2, name.getText());
+                pstmt.setString(3, fathername.getText());
+                pstmt.setString(4, address.getText());
+                pstmt.setString(5, classs.getText());
+                pstmt.setString(6, dob.getText());
+                pstmt.setString(7, contact.getText());
+                pstmt.setInt(8, Integer.parseInt(fees.getText()));
+                pstmt.executeUpdate();
+                name.setText(null);
+                searchingname.setText(null);
+                fathername.setText(null);
+                rollno.setText(null);
+                classs.setText(null);
+                contact.setText(null);
+                address.setText(null);
+                dob.setText(null);
+                fees.setText(null);
+                JOptionPane.showMessageDialog(null, "Update Successfull");
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e, null, 0);
+            }
     }// GEN-LAST:event_updateActionPerformed
 
     private void resetActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_resetActionPerformed
-        name.setText(null);
+        if (name.getText().length() <= 0
+                && rollno.getText().length() <= 0 && name.getText().length() <= 0
+                && fathername.getText().length() <= 0 && classs.getText().length() <= 0
+                && contact.getText().length() <= 0 && address.getText().length() <= 0 && dob.getText().length() <= 0
+                && fees.getText().length() <= 0 && searchingname.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(null, " ALL CLEAR !!");
+        } else
+            name.setText(null);
         searchingname.setText(null);
         fathername.setText(null);
         rollno.setText(null);

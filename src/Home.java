@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 
+import java.sql.*;
+
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author 91975
@@ -25,7 +29,8 @@ public class Home extends javax.swing.JDialog {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jLabel15 = new javax.swing.JLabel();
@@ -53,13 +58,15 @@ public class Home extends javax.swing.JDialog {
         jLabel2.setText("STUDENT MANAGEMENT SYSTEM");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(273, 20, 740, 100));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\91975\\OneDrive\\Desktop\\MY_WORK\\Student_Management_System\\img\\image-removebg-preview-removebg-preview.png")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(
+                "C:\\Users\\91975\\OneDrive\\Desktop\\MY_WORK\\Student_Management_System\\img\\image-removebg-preview-removebg-preview.png")); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(83, 10, 110, 130));
 
         search.setBackground(new java.awt.Color(0, 102, 102));
         search.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         search.setForeground(new java.awt.Color(255, 255, 255));
-        search.setIcon(new javax.swing.ImageIcon("C:\\Users\\91975\\OneDrive\\Desktop\\MY_WORK\\Student_Management_System\\img\\SEARCH-removebg-preview.png")); // NOI18N
+        search.setIcon(new javax.swing.ImageIcon(
+                "C:\\Users\\91975\\OneDrive\\Desktop\\MY_WORK\\Student_Management_System\\img\\SEARCH-removebg-preview.png")); // NOI18N
         search.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         search.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -108,26 +115,26 @@ public class Home extends javax.swing.JDialog {
         getContentPane().add(searchingname, new org.netbeans.lib.awtextra.AbsoluteConstraints(603, 190, 170, 40));
 
         Table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "ROLL NO.", "NAME", "FATHER_NAME", "ADDRESS", "CLASS", "DATE_OF_BIRTH", "CONTACT", "FESS"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
+                },
+                new String[] {
+                        "ROLL NO.", "NAME", "FATHER_NAME", "ADDRESS", "CLASS", "DATE_OF_BIRTH", "CONTACT", "FESS"
+                }) {
+            Class[] types = new Class[] {
+                    java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class,
+                    java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(Table);
@@ -149,7 +156,26 @@ public class Home extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_searchActionPerformed
-        // TODO add your handling code here:
+        if (searchingname.getText().length() <= 0) {
+            JOptionPane.showMessageDialog(null, "PLEASE ENTER STUDENT NAME");
+        } else
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/student", "root",
+                        "2412");
+                String query2 = "Select * from std where Name = '"
+                        + searchingname.getText() + "'";
+                PreparedStatement pst = con.prepareStatement(query2);
+                ResultSet r = pst.executeQuery(query2);
+                while (r.next()) {
+
+                }
+                JOptionPane.showMessageDialog(null, "SUCCESSFULL");
+                con.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e, null, 0);
+            }
     }// GEN-LAST:event_searchActionPerformed
 
     private void editstudentActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editstudentActionPerformed
